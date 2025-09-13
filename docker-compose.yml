@@ -1,0 +1,80 @@
+name: secret-santa
+
+services:
+  santa-db:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: secret-santa-db:local
+    container_name: secret-santa-db
+    user: "0:0"
+    command:
+      [
+        "-jar",
+        "DynamoDBLocal.jar",
+        "-sharedDb",
+        "-dbPath",
+        "/home/dynamodblocal/data"
+      ]
+    ports:
+      - "8000:8000"
+    volumes:
+      - santa_data:/home/dynamodblocal/data
+    restart: unless-stopped
+    networks:
+      - santa-net
+
+  santa-backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: secret-santa-backend:local
+    container_name: secret-santa-backend
+    depends_on:
+      - santa-db
+    env_file:
+      - ./server/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/src:/app/src
+    restart: unless-stopped
+    networks:
+      - santa-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  santa-frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: secret-santa-frontend:local
+    container_name: secret-santa-frontend
+    depends_on:
+      - santa-backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client/src:/app/src
+    restart: unless-stopped
+    environment:
+      - VITE_SERVER_URL=http://localhost:3000
+    networks:
+      - santa-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5173/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  santa_data:
+
+networks:
+  santa-net:
+    driver: bridge

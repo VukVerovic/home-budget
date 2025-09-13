@@ -1,0 +1,191 @@
+/* =========================
+   Dark Mode – Solid Background
+   ========================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+:root{
+  --bg: #0f1115;        /* pozadina */
+  --panel: #171a22;     /* kartice/paneli */
+  --panel-2:#1d2230;    /* alternativni sloj */
+  --line:#252a36;       /* linije/obrubi */
+  --text:#e5e7eb;       /* osnovni tekst */
+  --muted:#9aa3b2;      /* sekundarni tekst */
+  --blue:#3b82f6;       /* primarna (plava) */
+  --blue-2:#2563eb;
+  --amber:#f59e0b;      /* sekundarna (narandžasta) */
+  --green:#22c55e;
+  --red:#ef4444;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);        /* JEDNA boja pozadine */
+  color: var(--text);
+  line-height:1.55;
+}
+
+/* =========================
+   Layout
+   ========================= */
+.wrap{ max-width:1180px; margin:28px auto; padding:0 18px; }
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:18px;
+}
+@media (max-width:960px){ .grid{ grid-template-columns:1fr; } }
+
+.row{ display:flex; gap:10px; align-items:center; }
+.divider{ height:1px; background:var(--line); margin:12px 0; }
+
+/* =========================
+   Header / Brand
+   ========================= */
+.h1{ margin:0 0 6px; font-size:28px; font-weight:700; color:#f3f4f6; }
+.sub{ color:var(--muted); font-size:13px; }
+
+.brand{ display:flex; align-items:center; gap:14px; }
+.brand img{
+  width:72px; height:72px; object-fit:cover; border-radius:12px;
+  border:2px solid var(--line); background:#0b0d12;
+}
+
+/* =========================
+   Cards
+   ========================= */
+.card{
+  background: var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+.card h3{ margin:0 0 8px; color:#f3f4f6; }
+
+/* KPI pilule */
+.kpi{ display:flex; flex-wrap:wrap; gap:10px; }
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:999px; font-weight:600;
+  background:#0b1220; border:1px solid #1e293b; color:#c7d2fe;
+}
+.pill-danger{ background:#210c0c; border-color:#3a1616; color:#ffb4b4; }
+.pill-success{ background:#0c1f14; border-color:#173422; color:#b7f7ca; }
+
+/* =========================
+   Inputs & Buttons
+   ========================= */
+.inp, .select, textarea{
+  width:100%;
+  border:1px solid var(--line);
+  background:#0f131b;
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:14px;
+  transition: box-shadow .15s ease, border-color .15s ease, transform .03s ease;
+  outline:none;
+}
+.inp:focus, .select:focus, textarea:focus{
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(59,130,246,.18);
+}
+.select{ appearance:none; -webkit-appearance:none; }
+textarea{ min-height:90px; resize:vertical; }
+
+.btn, .btn-secondary{
+  height:38px; padding:0 14px; font-weight:600; border-radius:10px;
+  cursor:pointer; border:1px solid transparent;
+  transition: transform .06s ease, box-shadow .15s ease, background-color .15s ease;
+  user-select:none;
+}
+
+/* Primarno: plava */
+.btn{
+  background: linear-gradient(180deg, var(--blue), var(--blue-2));
+  color:#fff; border-color:var(--blue-2);
+  box-shadow: 0 10px 22px rgba(37,99,235,.25);
+}
+.btn:hover{ transform: translateY(-1px); box-shadow: 0 12px 26px rgba(37,99,235,.32); }
+.btn:active{ transform: translateY(0); }
+.btn:disabled{ background:#1f2735; border-color:#1f2735; color:#8b93a3; box-shadow:none; cursor:not-allowed; }
+
+/* Sekundarno: narandžasta */
+.btn-secondary{
+  background: linear-gradient(180deg, #f8b342, var(--amber));
+  color:#0b0f1a; border-color:var(--amber);
+  box-shadow: 0 10px 22px rgba(245,158,11,.22);
+}
+.btn-secondary:hover{ transform: translateY(-1px); box-shadow:0 12px 26px rgba(245,158,11,.28); }
+
+/* =========================
+   Badges / Titles
+   ========================= */
+.badge{
+  display:inline-block; padding:2px 8px; font-size:12px; font-weight:700;
+  color:#c7d2fe; background:#0b1220; border:1px solid #1e293b; border-radius:999px;
+}
+.col-title{ font-weight:700; font-size:15px; color:#e7eaf3; margin:0 0 8px; }
+.muted{ color:var(--muted); font-size:13px; }
+
+/* =========================
+   Lists
+   ========================= */
+ul{ padding-left:18px; margin:8px 0 0; }
+li + li{ margin-top:4px; }
+
+/* =========================
+   Tables (ako koristiš)
+   ========================= */
+.table{ width:100%; border-collapse:collapse; font-size:14px; color:var(--text); }
+.table th, .table td{
+  border-bottom:1px solid var(--line);
+  padding:10px 8px; text-align:left;
+}
+.table th{ color:#e7eaf3; font-weight:700; background:#151a23; }
+
+/* =========================
+   (Opciono) Kanban kolone
+   ========================= */
+.columns{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start;
+}
+.board-col{
+  border-radius:12px; padding:10px; background:var(--panel-2);
+  border:1px solid var(--line); max-height:68vh; overflow-y:auto;
+}
+.board-col .card{
+  border-radius:10px; background:var(--panel);
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  border:1px solid var(--line);
+}
+
+/* =========================
+   Pie charts layout (2 kolone 50/50)
+   ========================= */
+.charts-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:stretch;
+}
+@media (max-width:960px){ .charts-grid{ grid-template-columns:1fr; } }
+
+.pie-card .pie-wrap{ display:flex; gap:16px; align-items:center; }
+.pie-card .pie-wrap > div:first-child{ min-width:220px; }
+
+/* Legenda za pie */
+.legend{ margin-top:6px; }
+.legend-item{ display:flex; align-items:center; gap:8px; margin:4px 0; }
+.color-dot{ width:12px; height:12px; border-radius:2px; }
+
+/* =========================
+   Focus & Scroll
+   ========================= */
+:focus-visible{ outline:2px dashed var(--blue); outline-offset:2px; }
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-thumb{
+  background:#2a3142; border-radius:8px; border:2px solid #0f1115;
+}
+::-webkit-scrollbar-thumb:hover{ background:#3a4357; }
