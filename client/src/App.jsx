@@ -13,7 +13,6 @@ function Header() {
   return (
     <div className="card" style={{ marginBottom: 12 }}>
       <h1 className="h1">Kućni budžet</h1>
-      <div className="sub">Povezano na backend (Express + DynamoDB/Dynamoose).</div>
     </div>
   );
 }
