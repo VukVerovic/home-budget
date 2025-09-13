@@ -1,12 +1,12 @@
-name: secret-santa
+name: kucni-budzet
 
 services:
-  santa-db:
+  kucni-budzet-db:
     build:
       context: ./database
       dockerfile: Dockerfile
-    image: secret-santa-db:local
-    container_name: secret-santa-db
+    image: kucni-budzet-db:local
+    container_name: kucni-budzet-db
     user: "0:0"
     command:
       [
@@ -19,19 +19,19 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - santa_data:/home/dynamodblocal/data
+      - kucni-budzet:/home/dynamodblocal/data
     restart: unless-stopped
     networks:
-      - santa-net
+      - kucni-budzet-net
 
-  santa-backend:
+  kucni-budzet-backend:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: secret-santa-backend:local
-    container_name: secret-santa-backend
+    image: kucni-budzet-backend:local
+    container_name: kucni-budzet-backend
     depends_on:
-      - santa-db
+      - kucni-budzet-db
     env_file:
       - ./server/.env
     ports:
@@ -40,7 +40,7 @@ services:
       - ./server/src:/app/src
     restart: unless-stopped
     networks:
-      - santa-net
+      - kucni-budzet-net
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
       interval: 30s
@@ -52,10 +52,10 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: secret-santa-frontend:local
-    container_name: secret-santa-frontend
+    image: kucni-budzet-frontend:local
+    container_name: kucni-budzet-frontend
     depends_on:
-      - santa-backend
+      - kucni-budzet
     ports:
       - "5173:5173"
     volumes:
@@ -64,7 +64,7 @@ services:
     environment:
       - VITE_SERVER_URL=http://localhost:3000
     networks:
-      - santa-net
+      - kucni-budzet-net
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:5173/"]
       interval: 30s
@@ -73,8 +73,8 @@ services:
       start_period: 10s
 
 volumes:
-  santa_data:
+  kucni-budzet_data:
 
 networks:
-  santa-net:
+  kucni-budzet-net:
     driver: bridge
